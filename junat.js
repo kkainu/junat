@@ -24,14 +24,14 @@ function fetchTimeTables() {
   getTrainLineDateData(trainLines.ogeli_helsinki)
     .then(trains => trainDataToHTML(trains, trainLines.ogeli_helsinki))
 
-  setTimeout(fetchTimeTables, 5000)
+  setTimeout(fetchTimeTables, 30000)
 }
 
 fetchTimeTables()
 
 async function getTrainLineDateData(line) {
   const startDate = new Date(new Date().getTime() - 5 * 1000 * 60).toISOString()
-  const endDate = new Date(new Date().getTime() + 30 * 1000 * 60).toISOString()
+  const endDate = new Date(new Date().getTime() + 60 * 1000 * 60).toISOString()
   const urlWithTime = `${line.url}?startDate=${startDate}&endDate=${endDate}`
   const response = await fetch(urlWithTime);
   const data = await response.json();
