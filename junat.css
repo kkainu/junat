@@ -1,11 +1,49 @@
 body {
-  font: normal 12px Tahoma, sans-serif;
+  font: normal 20px Tahoma, sans-serif;
   padding: 24px;
 }
-h1, h2 {
+
+h1 {
+  font-size: 30px;
   text-transform: uppercase;
 }
+
+h2 {
+  font-size: 20px;
+  text-transform: uppercase;
+}
+
 .station {
   border: 1px solid black;
-  border-radius: 3px;
+  border-radius: 5px;
+  margin-bottom: 20px;
+  padding: 5px 5px 0 5px;
+}
+
+.train-row {
+  display: flex;
+  justify-content: space-between;
+  margin-bottom: 5px;
+}
+
+.cancelled {
+  text-decoration: line-through;
+}
+
+#time {
+  position: absolute;
+  right: 32px;
+  top: 41px;
+}
+
+.train-id {
+  width: 26px;
+  border-radius: 13px;
+  border: 1px solid black;
+  text-align: center;
+}
+
+.track {
+  width: 30px;
+  text-align: right;
 }
