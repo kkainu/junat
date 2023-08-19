@@ -24,6 +24,11 @@ h2 {
   display: flex;
   justify-content: space-between;
   margin-bottom: 5px;
+  padding: 5px;
+}
+
+.train-row:nth-child(even) {
+  background-color: #EAEAEA;
 }
 
 .cancelled {
