@@ -1,21 +1,22 @@
-
 const trainLines = {
   helsinki_ogeli: {
     id: 'helsinki_ogeli',
     url: 'https://rata.digitraffic.fi/api/v1/live-trains/station/HKI/OLK',
-    station: 'HKI'
+    station: 'HKI',
+    tracks: ['1','2','3','4','5','6','7','8','9']
   },
   ogeli_helsinki: {
     id: 'ogeli_helsinki',
     url: 'https://rata.digitraffic.fi/api/v1/live-trains/station/OLK/HKI',
-    station: 'OLK'
+    station: 'OLK',
+    tracks: ['4']
   }
 }
 
-
-
 function fetchTimeTables() {
   document.getElementById('time').innerText = getTime()
+
+  const lines = Object.keys(trainLines)
 
   getTrainLineDateData(trainLines.helsinki_ogeli)
     .then(trains => trainDataToHTML(trains, trainLines.helsinki_ogeli))
@@ -27,7 +28,6 @@ function fetchTimeTables() {
 }
 
 fetchTimeTables()
- 
 
 async function getTrainLineDateData(line) {
   const startDate = new Date(new Date().getTime() - 5 * 1000 * 60).toISOString()
@@ -38,23 +38,27 @@ async function getTrainLineDateData(line) {
   return data
 }
 
-function trainData(train, station) {
-  const timeTable = train.timeTableRows.find(r => r.stationShortCode === station && r.type === 'DEPARTURE')
-  return {
+function trainData(train, line) {
+  const timeTable = train.timeTableRows.find(
+    r => r.stationShortCode === line.station && 
+    r.type === 'DEPARTURE' && 
+    (line.tracks === undefined || line.tracks.includes(r.commercialTrack))
+  )
+  return timeTable ? {
     id: train.commuterLineID,
-    departure: timeTable.scheduledTime,
+    departure: new Date(timeTable.scheduledTime).toLocaleTimeString(),
     cancelled: timeTable.cancelled, 
     track: timeTable.commercialTrack,
-  }
+  } : null
 }
 
 function trainDataToHTML(trainsResponse, line) {
-  const trains = trainsResponse.map(train => trainData(train, line.station))
+  const trains = trainsResponse.map(train => trainData(train, line)).filter(r => r !== null)
   document.getElementById(line.id).innerHTML = trains.map(t => {
     return `
     <div class="train-row">
       <div class="train-id">${t.id}</div>
-      <div class="departure${t.cancelled ? ' cancelled' : ''}">${t.departure.slice(11,19)}</div>
+      <div class="departure${t.cancelled ? ' cancelled' : ''}">${t.departure}</div>
       <div class="track">${t.track}</div>
     </div>`
   }).join('')
@@ -62,6 +66,6 @@ function trainDataToHTML(trainsResponse, line) {
 
 function getTime() {
   const now = new Date()
-  return now.toLocaleTimeString('fi-FI')
+  return now.toLocaleTimeString()
 }
 
