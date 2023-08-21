@@ -15,28 +15,25 @@ const trainLines = {
   }
 }
 
-async function fetchTimeTables() {
-  document.getElementById('time').innerText = getTime()
+async function updateTimeTables() {
+  document.getElementById('time').innerText = new Date().toLocaleTimeString()
 
   const html = await Promise.all(Object.keys(trainLines).map(async line => {
-    const trains = await getTrainLineDateData(trainLines[line])
+    const trains = await getTrainLineData(trainLines[line])
     return trainDataToHTML(trains, trainLines[line])
   }))
 
   document.getElementById('data').innerHTML = html.join('')
 
-  setTimeout(fetchTimeTables, 30000)
+  setTimeout(updateTimeTables, 30000)
 }
 
-fetchTimeTables()
-
-async function getTrainLineDateData(line) {
+async function getTrainLineData(line) {
   const startDate = new Date(new Date().getTime() - 5 * 1000 * 60).toISOString()
   const endDate = new Date(new Date().getTime() + 60 * 1000 * 60).toISOString()
   const urlWithTime = `${line.url}?startDate=${startDate}&endDate=${endDate}`
   const response = await fetch(urlWithTime);
-  const data = await response.json();
-  return data
+  return response.json();
 }
 
 function trainData(train, line) {
@@ -45,12 +42,20 @@ function trainData(train, line) {
     r.type === 'DEPARTURE' && 
     (line.tracks === undefined || line.tracks.includes(r.commercialTrack))
   )
-  return timeTable ? {
+
+  if (!timeTable) {
+    return null
+  }
+
+  const departureTime = new Date(timeTable.scheduledTime).toLocaleTimeString()
+  const estimateTime = timeTable.liveEstimateTime && new Date(timeTable.liveEstimateTime).toLocaleDateString()
+
+  return {
     id: train.commuterLineID,
-    departure: new Date(timeTable.scheduledTime).toLocaleTimeString(),
+    departure: `${departureTime}${estimateTime ? `/${estimateTime}` : ''}`,
     cancelled: timeTable.cancelled, 
     track: timeTable.commercialTrack,
-  } : null
+  }
 }
 
 function trainDataToHTML(trainsResponse, line) {
@@ -69,8 +74,5 @@ function trainDataToHTML(trainsResponse, line) {
   `
 }
 
-function getTime() {
-  const now = new Date()
-  return now.toLocaleTimeString()
-}
+updateTimeTables()
 
