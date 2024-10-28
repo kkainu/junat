@@ -48,11 +48,11 @@ function trainData(train, line) {
   }
 
   const departureTime = new Date(timeTable.scheduledTime).toLocaleTimeString()
-  const estimateTime = timeTable.liveEstimateTime && new Date(timeTable.liveEstimateTime).toLocaleDateString()
+  const estimateTime = timeTable.liveEstimateTime && new Date(timeTable.liveEstimateTime).toLocaleTimeString()
 
   return {
     id: train.commuterLineID,
-    departure: `${departureTime}`,
+    departure: `${departureTime}${estimateTime ? `/${estimateTime}` : ''}`,
     cancelled: timeTable.cancelled, 
     track: timeTable.commercialTrack,
   }
