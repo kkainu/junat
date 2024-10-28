@@ -52,7 +52,7 @@ function trainData(train, line) {
 
   return {
     id: train.commuterLineID,
-    departure: `${departureTime}${estimateTime ? `/${estimateTime}` : ''}`,
+    departure: `${departureTime}`,
     cancelled: timeTable.cancelled, 
     track: timeTable.commercialTrack,
   }
