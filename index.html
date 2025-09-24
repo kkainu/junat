@@ -1,9 +1,11 @@
-<html>
+<!DOCTYPE html>
+<html lang="en">
   <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1">	  
+    <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta name="apple-mobile-web-app-capable" content="yes">
     <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+    <meta name="theme-color" content="#121826">
     <link rel="apple-touch-icon" sizes="120x120" href="/icons/train-icon-120x120.png">
     <link rel="apple-touch-icon" sizes="152x152" href="/icons/train-icon-152x152.png">
     <link rel="apple-touch-icon" sizes="167x167" href="/icons/train-icon-167x167.png">
@@ -11,11 +13,25 @@
     <link rel="icon" sizes="192x192" href="/icons/train-icon-192x192.png">
     <link rel="icon" sizes="512x512" href="/icons/train-icon-512x512.png">
     <link rel="stylesheet" href="junat.css">
-    <script src="junat.js" defer ></script>
+    <script src="junat.js" defer></script>
+    <title>Junat</title>
   </head>
   <body>
-    <h1>Junat</h1>
-    <div id="time"></div>
-    <div id="data"></div>
+    <div class="app-shell">
+      <header class="app-header">
+        <div class="brand">
+          <span class="brand-icon" aria-hidden="true">&#128646;</span>
+          <div>
+            <h1 class="brand-title">Junat</h1>
+            <p class="brand-subtitle">Live commuter departures</p>
+          </div>
+        </div>
+        <div class="status-block">
+          <span class="status-label">Updated</span>
+          <time id="time" class="status-value" aria-live="polite"></time>
+        </div>
+      </header>
+      <main id="data" class="lines" aria-live="polite"></main>
+    </div>
   </body>
 </html>
