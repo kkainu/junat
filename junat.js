@@ -2,13 +2,15 @@ const REFRESH_INTERVAL_MS = 30000;
 
 const timeFormatter = new Intl.DateTimeFormat(undefined, {
   hour: '2-digit',
-  minute: '2-digit'
+  minute: '2-digit',
+  hour12: false
 });
 
 const headerTimeFormatter = new Intl.DateTimeFormat(undefined, {
   weekday: 'short',
   hour: '2-digit',
-  minute: '2-digit'
+  minute: '2-digit',
+  hour12: false
 });
 
 const trainLines = {
