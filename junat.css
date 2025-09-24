@@ -55,14 +55,13 @@ body {
 }
 
 .brand-icon {
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
   width: 44px;
   height: 44px;
+  display: block;
   border-radius: 14px;
-  background: rgba(56, 189, 248, 0.18);
-  font-size: 26px;
+  border: 1px solid rgba(148, 163, 184, 0.18);
+  object-fit: cover;
+  box-shadow: 0 8px 20px rgba(15, 23, 42, 0.35);
 }
 
 .brand-title {
