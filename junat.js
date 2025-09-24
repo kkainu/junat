@@ -141,12 +141,10 @@ function trainDataToHTML(trainsResponse, line) {
 }
 
 function renderDeparture(train) {
-  const isDelayed = !train.cancelled && train.deltaMinutes !== 0;
-  const delayBadge = isDelayed
-    ? `<span class="estimate">${train.estimate} ${formatDelta(train.deltaMinutes)}</span>`
-    : !train.cancelled && train.estimate
-      ? `<span class="estimate">${train.estimate}</span>`
-      : '';
+  const showDelay = !train.cancelled && Number.isFinite(train.deltaMinutes) && train.deltaMinutes > 0;
+  const delayBadge = showDelay
+    ? `<span class="estimate">${train.deltaMinutes} min</span>`
+    : '';
 
   const cancelledHint = train.cancelled ? '<span class="estimate">Cancelled</span>' : '';
 
@@ -161,14 +159,6 @@ function renderDeparture(train) {
       <div class="track-pill">Track ${train.track}</div>
     </div>
   `;
-}
-
-function formatDelta(delta) {
-  if (delta === 0 || Number.isNaN(delta)) {
-    return '';
-  }
-  const sign = delta > 0 ? '+' : '-';
-  return `${sign}${Math.abs(delta)} min`;
 }
 
 updateTimeTables();
