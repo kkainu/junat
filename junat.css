@@ -324,8 +324,18 @@ body {
 }
 
 .theme-toggle__icon {
-  font-size: 18px;
-  line-height: 1;
+  display: none;
+  align-items: center;
+  justify-content: center;
+}
+
+.theme-toggle__svg {
+  display: block;
+}
+
+.theme-toggle--show-sun .theme-toggle__icon--sun,
+.theme-toggle--show-moon .theme-toggle__icon--moon {
+  display: inline-flex;
 }
 
 .empty-state {

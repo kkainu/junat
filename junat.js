@@ -207,11 +207,8 @@ function updateThemeToggle(theme) {
   const label = `Switch to ${nextTheme} theme`;
 
   toggle.setAttribute('aria-label', label);
-
-  const iconElement = toggle.querySelector('.theme-toggle__icon');
-  if (iconElement) {
-    iconElement.textContent = nextTheme === 'light' ? '☀' : '☾';
-  }
+  toggle.classList.remove('theme-toggle--show-sun', 'theme-toggle--show-moon');
+  toggle.classList.add(nextTheme === 'light' ? 'theme-toggle--show-sun' : 'theme-toggle--show-moon');
 }
 
 function initThemeToggle() {
