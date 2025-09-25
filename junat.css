@@ -22,9 +22,12 @@
   --cancelled-bg: rgba(248, 113, 113, 0.16);
   --cancelled-chip-bg: rgba(248, 113, 113, 0.22);
   --cancelled-chip-text: rgba(248, 209, 209, 0.9);
-  --toggle-bg: rgba(148, 163, 184, 0.12);
-  --toggle-border: rgba(148, 163, 184, 0.3);
-  --toggle-hover-border: rgba(148, 163, 184, 0.45);
+  --toggle-bg: transparent;
+  --toggle-border: rgba(255, 255, 255, 0.6);
+  --toggle-hover-border: #ffffff;
+  --toggle-color: #ffffff;
+  --toggle-hover-bg: #ffffff;
+  --toggle-hover-color: #000000;
 }
 
 :root[data-theme='light'] {
@@ -50,9 +53,12 @@
   --cancelled-bg: rgba(254, 226, 226, 0.85);
   --cancelled-chip-bg: rgba(248, 113, 113, 0.22);
   --cancelled-chip-text: #7f1d1d;
-  --toggle-bg: rgba(255, 255, 255, 0.78);
-  --toggle-border: rgba(148, 163, 184, 0.5);
-  --toggle-hover-border: rgba(15, 23, 42, 0.38);
+  --toggle-bg: transparent;
+  --toggle-border: rgba(0, 0, 0, 0.55);
+  --toggle-hover-border: #000000;
+  --toggle-color: #000000;
+  --toggle-hover-bg: #000000;
+  --toggle-hover-color: #ffffff;
 }
 
 * {
@@ -97,6 +103,8 @@ body {
   display: flex;
   align-items: center;
   gap: 14px;
+  min-width: 0;
+  flex: 1 1 auto;
 }
 
 .brand-icon {
@@ -126,16 +134,24 @@ body {
   flex-direction: column;
   align-items: flex-end;
   gap: 12px;
+  flex: 0 0 auto;
 }
 
 .status-block {
   display: flex;
-  flex-direction: column;
-  align-items: flex-end;
+  align-items: center;
+  justify-content: flex-end;
   padding: 10px 12px;
   border-radius: 12px;
   background: var(--status-bg);
   border: 1px solid var(--status-border);
+  gap: 12px;
+}
+
+.status-info {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
   gap: 2px;
 }
 
@@ -261,21 +277,20 @@ body {
 
 @media (max-width: 560px) {
   .app-header {
-    flex-direction: column;
-    align-items: stretch;
+    align-items: flex-start;
+    gap: 12px;
+  }
+
+  .brand-title {
+    font-size: 24px;
+  }
+
+  .brand-subtitle {
+    font-size: 13px;
   }
 
   .header-actions {
-    width: 100%;
-    align-items: stretch;
-  }
-
-  .header-actions .status-block {
-    width: 100%;
-  }
-
-  .header-actions .theme-toggle {
-    align-self: flex-end;
+    gap: 8px;
   }
 }
 
@@ -284,7 +299,7 @@ body {
   appearance: none;
   border: 1px solid var(--toggle-border);
   background: var(--toggle-bg);
-  color: var(--text-secondary);
+  color: var(--toggle-color);
   border-radius: 50%;
   width: 36px;
   height: 36px;
@@ -298,7 +313,8 @@ body {
 
 .theme-toggle:hover,
 .theme-toggle:focus-visible {
-  color: var(--text-primary);
+  background: var(--toggle-hover-bg);
+  color: var(--toggle-hover-color);
   border-color: var(--toggle-hover-border);
 }
 
