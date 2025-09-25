@@ -6,6 +6,29 @@
     <meta name="apple-mobile-web-app-capable" content="yes">
     <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
     <meta name="theme-color" content="#121826">
+    <script>
+      (function () {
+        try {
+          const storageKey = 'junat-theme';
+          const storedTheme = localStorage.getItem(storageKey);
+          const prefersLight = window.matchMedia && window.matchMedia('(prefers-color-scheme: light)').matches;
+          const theme = storedTheme === 'light' || storedTheme === 'dark'
+            ? storedTheme
+            : prefersLight
+              ? 'light'
+              : 'dark';
+
+          document.documentElement.dataset.theme = theme;
+
+          const metaThemeColor = document.querySelector('meta[name="theme-color"]');
+          if (metaThemeColor) {
+            metaThemeColor.setAttribute('content', theme === 'light' ? '#f8fafc' : '#121826');
+          }
+        } catch (error) {
+          console.warn('Unable to initialise theme', error);
+        }
+      })();
+    </script>
     <link rel="apple-touch-icon" href="/icons/train-180.png">
     <link rel="stylesheet" href="junat.css?v=2">
     <script src="junat.js?v=2" defer></script>
@@ -21,9 +44,15 @@
             <p class="brand-subtitle">Live commuter departures</p>
           </div>
         </div>
-        <div class="status-block">
-          <span class="status-label">Updated</span>
-          <time id="time" class="status-value" aria-live="polite"></time>
+        <div class="header-actions">
+          <div class="status-block">
+            <span class="status-label">Updated</span>
+            <time id="time" class="status-value" aria-live="polite"></time>
+          </div>
+          <button id="theme-toggle" class="theme-toggle" type="button">
+            <span class="theme-toggle__icon" aria-hidden="true">☀️</span>
+            <span class="theme-toggle__label">Switch to light theme</span>
+          </button>
         </div>
       </header>
       <main id="data" class="lines" aria-live="polite"></main>
