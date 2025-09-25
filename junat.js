@@ -36,6 +36,8 @@ const trainLines = {
 };
 
 async function updateTimeTables() {
+  triggerRefreshAnimation();
+
   const now = new Date();
   const timeEl = document.getElementById('time');
   if (timeEl) {
@@ -60,6 +62,17 @@ async function updateTimeTables() {
   }
 
   setTimeout(updateTimeTables, REFRESH_INTERVAL_MS);
+}
+
+function triggerRefreshAnimation() {
+  const toggle = document.getElementById('theme-toggle');
+  if (!toggle) {
+    return;
+  }
+
+  toggle.classList.remove('theme-toggle--spin');
+  void toggle.offsetWidth; // Force reflow so the animation restarts on each refresh.
+  toggle.classList.add('theme-toggle--spin');
 }
 
 function errorState(line) {

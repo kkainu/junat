@@ -311,6 +311,10 @@ body {
   padding: 0;
 }
 
+.theme-toggle--spin {
+  animation: theme-toggle-spin 0.6s ease;
+}
+
 .theme-toggle:hover,
 .theme-toggle:focus-visible {
   background: var(--toggle-hover-bg);
@@ -336,6 +340,16 @@ body {
 .theme-toggle--show-sun .theme-toggle__icon--sun,
 .theme-toggle--show-moon .theme-toggle__icon--moon {
   display: inline-flex;
+}
+
+@keyframes theme-toggle-spin {
+  from {
+    transform: rotate(0deg);
+  }
+
+  to {
+    transform: rotate(360deg);
+  }
 }
 
 .empty-state {
