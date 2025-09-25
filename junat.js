@@ -208,11 +208,6 @@ function updateThemeToggle(theme) {
 
   toggle.setAttribute('aria-label', label);
 
-  const labelElement = toggle.querySelector('.theme-toggle__label');
-  if (labelElement) {
-    labelElement.textContent = label;
-  }
-
   const iconElement = toggle.querySelector('.theme-toggle__icon');
   if (iconElement) {
     iconElement.textContent = nextTheme === 'light' ? '☀️' : '🌙';
