@@ -123,15 +123,14 @@ body {
 
 .header-actions {
   display: flex;
-  flex-direction: column;
-  align-items: flex-end;
+  align-items: center;
   gap: 12px;
 }
 
 .status-block {
   display: flex;
   flex-direction: column;
-  align-items: flex-end;
+  align-items: flex-start;
   padding: 10px 12px;
   border-radius: 12px;
   background: var(--status-bg);
@@ -267,15 +266,15 @@ body {
 
   .header-actions {
     width: 100%;
-    align-items: stretch;
+    justify-content: space-between;
   }
 
   .header-actions .status-block {
-    width: 100%;
+    width: auto;
   }
 
   .header-actions .theme-toggle {
-    align-self: flex-end;
+    align-self: center;
   }
 }
 
