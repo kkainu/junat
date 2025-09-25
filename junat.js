@@ -1,4 +1,9 @@
 const REFRESH_INTERVAL_MS = 30000;
+const THEME_STORAGE_KEY = 'junat-theme';
+const THEME_COLORS = {
+  dark: '#121826',
+  light: '#f8fafc'
+};
 
 const timeFormatter = new Intl.DateTimeFormat(undefined, {
   hour: '2-digit',
@@ -161,4 +166,79 @@ function renderDeparture(train) {
   `;
 }
 
+function getPreferredTheme() {
+  try {
+    const storedTheme = localStorage.getItem(THEME_STORAGE_KEY);
+    if (storedTheme === 'light' || storedTheme === 'dark') {
+      return storedTheme;
+    }
+  } catch (error) {
+    console.warn('Unable to read stored theme', error);
+  }
+
+  const datasetTheme = document.documentElement.dataset.theme;
+  if (datasetTheme === 'light' || datasetTheme === 'dark') {
+    return datasetTheme;
+  }
+
+  const prefersLight = window.matchMedia && window.matchMedia('(prefers-color-scheme: light)').matches;
+  return prefersLight ? 'light' : 'dark';
+}
+
+function applyTheme(theme) {
+  const normalizedTheme = theme === 'light' ? 'light' : 'dark';
+  document.documentElement.dataset.theme = normalizedTheme;
+
+  const metaThemeColor = document.querySelector('meta[name="theme-color"]');
+  if (metaThemeColor) {
+    metaThemeColor.setAttribute('content', THEME_COLORS[normalizedTheme]);
+  }
+
+  updateThemeToggle(normalizedTheme);
+}
+
+function updateThemeToggle(theme) {
+  const toggle = document.getElementById('theme-toggle');
+  if (!toggle) {
+    return;
+  }
+
+  const nextTheme = theme === 'dark' ? 'light' : 'dark';
+  const label = `Switch to ${nextTheme} theme`;
+
+  toggle.setAttribute('aria-label', label);
+
+  const iconElement = toggle.querySelector('.theme-toggle__icon');
+  if (iconElement) {
+    iconElement.textContent = nextTheme === 'light' ? '☀️' : '🌙';
+  }
+}
+
+function initThemeToggle() {
+  const toggle = document.getElementById('theme-toggle');
+  if (!toggle) {
+    return;
+  }
+
+  toggle.addEventListener('click', () => {
+    const currentTheme = document.documentElement.dataset.theme === 'light' ? 'light' : 'dark';
+    const nextTheme = currentTheme === 'light' ? 'dark' : 'light';
+
+    applyTheme(nextTheme);
+
+    try {
+      localStorage.setItem(THEME_STORAGE_KEY, nextTheme);
+    } catch (error) {
+      console.warn('Unable to persist theme selection', error);
+    }
+  });
+}
+
+function initialiseTheme() {
+  const initialTheme = getPreferredTheme();
+  applyTheme(initialTheme);
+  initThemeToggle();
+}
+
+initialiseTheme();
 updateTimeTables();
