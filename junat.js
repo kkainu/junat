@@ -210,7 +210,7 @@ function updateThemeToggle(theme) {
 
   const iconElement = toggle.querySelector('.theme-toggle__icon');
   if (iconElement) {
-    iconElement.textContent = nextTheme === 'light' ? '☀️' : '🌙';
+    iconElement.textContent = nextTheme === 'light' ? '☀' : '☾';
   }
 }
 
